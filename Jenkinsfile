@@ -1,8 +1,9 @@
 pipeline{
-   options {
+   
+    agent {label 'linagent'}
+	options {
     skipDefaultCheckout()
   }
-    agent {label 'linagent'}
     
     stages{
         stage('build'){

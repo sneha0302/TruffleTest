@@ -1,5 +1,7 @@
 pipeline{
-   
+   options {
+    skipDefaultCheckout()
+  }
     agent {label 'linagent'}
     
     stages{

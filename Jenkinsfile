@@ -35,7 +35,7 @@ stage('defect-dojo')
 				unstash report_name
 				bat 'python dojo_ci_cd.py --product=2 --file '+report_name+' --scanner="Snyk Scan" --high=0 --host=https://demo.defectdojo.org --api_token=548afd6fab3bea9794a41b31da0e9404f733e222 --user=admin --engagement=1 --active TRUE'
 			}
-			sh 'exit 0'
+			bat 'exit 0'
 			}
 		}
 	}
@@ -74,7 +74,7 @@ stage('DAST-->HCL Appscan')
 		optimization: 'Fast', scanType: 'Staging',
 		target: 'https://demo.testfire.net?mode=demo'),
 		target:'', type: 'Dynamic Analyzer', wait: false
-		sh 'exit 0'
+		bat 'exit 0'
 		}
 	}
 }
@@ -87,7 +87,7 @@ stage("Snyk-Container Scan")
 		catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')  {
             bat 'C:\\Users\\Administrator\\Downloads\\snyk-win.exe  auth ' +snyktoken 
 			bat 'C:\\Users\\Administrator\\Downloads\\snyk-win.exe container test alpine:latest'
-			sh 'exit 0'
+			bat 'exit 0'
 			}
         }
     }
@@ -101,7 +101,7 @@ stage("Snyk-IAC Scan")
             checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/charankk21/SNYK_IAC_DEMO.git']]])
 			bat 'C:\\Users\\Administrator\\Downloads\\snyk-win.exe auth ' +snyktoken 
 			bat 'C:\\Users\\Administrator\\Downloads\\snyk-win.exe iac test'
-            sh 'exit 0'
+            bat 'exit 0'
 			}
 		}
     }

@@ -47,18 +47,22 @@ stage('SAST-->SonarQube')
         skipDefaultCheckout()
         }
 	steps{
+		catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')  {
 		sh 'echo hello'
 			deleteDir()
 			sh 'sudo git clone https://github.com/charankk21/SonarQube.git'
 			dir('SonarQube'){
 			sh 'mvn sonar:sonar -Dsonar.projectKey=SonarTest -Dsonar.host.url=http://localhost:9000 -Dsonar.login=12a39a18aacff4ee3e3c8d425463919a5d5c7fd2'
+		sh 'exit 0'
 		}
+	}
     }
 }
 stage('DAST-->HCL Appscan')
 {
     agent any
 	steps{
+		catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')  {
 		appscan application: '4829fff0-964c-47c7-9c36-26ce84ac977a',
 		credentials: 'hcldast',
 		email: true,
@@ -70,15 +74,21 @@ stage('DAST-->HCL Appscan')
 		optimization: 'Fast', scanType: 'Staging',
 		target: 'https://demo.testfire.net?mode=demo'),
 		target:'', type: 'Dynamic Analyzer', wait: false
+		sh 'exit 0'
+		}
 	}
 }
 stage("Snyk-Container Scan")
 {
     agent any
     steps{
+	    
         withCredentials([string(credentialsId: 'CK_snykKey', variable: 'snyktoken')]) {
+		catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')  {
             bat 'C:\\Users\\Administrator\\Downloads\\snyk-win.exe  auth ' +snyktoken 
 			bat 'C:\\Users\\Administrator\\Downloads\\snyk-win.exe container test alpine:latest'
+			sh 'exit 0'
+			}
         }
     }
 }

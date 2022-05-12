@@ -37,11 +37,60 @@ stage('defect-dojo')
 		}
 	}
 }
-stage ('DAST-->ZAP')
+stage('SAST-->SonarQube')
 {
-	agent any
+	agent {label 'linagent'}
+	options { 
+        skipDefaultCheckout()
+        }
+	steps{
+		sh 'echo hello'
+			deleteDir()
+			sh 'sudo git clone https://github.com/charankk21/SonarQube.git'
+			dir('SonarQube'){
+			sh 'mvn sonar:sonar -Dsonar.projectKey=SonarTest -Dsonar.host.url=http://localhost:9000 -Dsonar.login=12a39a18aacff4ee3e3c8d425463919a5d5c7fd2'
+		}
+    }
+}
+stage('DAST-->HCL Appscan')
+{
+    agent any
+	steps{
+		appscan application: '4829fff0-964c-47c7-9c36-26ce84ac977a',
+		credentials: 'hcldast',
+		email: true,
+		failBuild: false,
+		failBuildNonCompliance: false,
+		failureConditions: [],
+		name: BUILD_NUMBER,
+		scanner: dynamic_analyzer(hasOptions: true, loginPassword: "${params.TestFire_Pass}", loginUser: '${params.UserName}',
+		optimization: 'Fast', scanType: 'Staging',
+		target: 'https://demo.testfire.net?mode=demo'),
+		target:'', type: 'Dynamic Analyzer', wait: false
+	}
+}
+stage("Snyk-Container Scan")
+{
+    agent any
     steps{
-         bat 'java -jar C:\\Users\\Administrator\\Downloads\\OWASP\\ZedAttackProxy\\zap-2.10.0.jar -quickurl http://demo.testfire.net -quickout C:\\result_1.html -quickprogress -cmd'
+        withCredentials([string(credentialsId: 'CK_snykKey', variable: 'snyktoken')]) {
+            bat 'C:\\Users\\Administrator\\Downloads\\snyk-win.exe  auth ' +snyktoken 
+			bat 'C:\\Users\\Administrator\\Downloads\\snyk-win.exe container test alpine:latest'
+        }
+    }
+}
+stage("Snyk-IAC Scan")
+{
+    agent any
+    steps{
+        withCredentials([string(credentialsId: 'CK_snykKey', variable: 'snyktoken')]) {
+            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')  {
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/charankk21/SNYK_IAC_DEMO.git']]])
+			bat 'C:\\Users\\Administrator\\Downloads\\snyk-win.exe auth ' +snyktoken 
+			bat 'C:\\Users\\Administrator\\Downloads\\snyk-win.exe iac test'
+            sh 'exit 0'
+			}
+		}
     }
 }
 	}

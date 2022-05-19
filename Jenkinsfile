@@ -17,7 +17,7 @@ pipeline{
 							name: BUILD_NUMBER,
 							scanner: dynamic_analyzer(hasOptions: true, loginPassword: "${params.TestFire_Pass}", loginUser: '${params.UserName}',
 							optimization: 'Fast', scanType: 'Staging',
-							target: 'https://github.com/charankk21/TruffleTest.git'),
+							target: 'https://demo.testfire.net?mode=demo'),
 							target:'', type: 'Dynamic Analyzer', wait: false
                 					bat 'exit 0'
 						}

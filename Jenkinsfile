@@ -120,25 +120,25 @@ stage('Checkov ->Checkout'){
                  }  
               }
           }
-stage('defect-dojo')
-{
-	agent any
-	steps
-	{
-		script
+	stage('defect-dojo')
 		{
-		catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')  {
-			def report_name='Checkov.json'
-			//stash allowEmpty: true, includes: report_name, name: 'Checkov.json'
-			ws('C:\\Users\\Administrator\\defectdojo_api\\examples\\v2')
+			agent any
+			steps
 			{
-				unstash report_name
-				bat 'python dojo_ci_cd.py --product=2 --file '+report_name+' --scanner="Checkov Scan" --high=0 --host=https://demo.defectdojo.org --api_token=548afd6fab3bea9794a41b31da0e9404f733e222 --user=admin --engagement=1 --active TRUE'
-			}
-			bat 'exit 0'
+				script
+					{
+		                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')  {
+						def report_name='Checkov.json'
+			                       //stash allowEmpty: true, includes: report_name, name: 'Checkov.json'
+			                       ws('C:\\Users\\Administrator\\defectdojo_api\\examples\\v2')
+						{
+							unstash report_name
+							bat 'python dojo_ci_cd.py --product=2 --file '+report_name+' --scanner="Checkov Scan" --high=0 --host=https://demo.defectdojo.org --api_token=548afd6fab3bea9794a41b31da0e9404f733e222 --user=admin --engagement=1 --active TRUE'
+			                         }
+						bat 'exit 0'
+					}
+				}
 			}
 		}
-	}
-}
 	}
 }

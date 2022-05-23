@@ -113,7 +113,7 @@ stage('Checkov ->Checkout'){
                     sh "ls -al"
                     sh "pipenv install"
                     sh "pipenv run pip install checkov"
-                    sh "pipenv run checkov --directory terraform/ --quiet --download-external-modules true --framework terraform -o junitxml > Checkov.json || true"
+                    sh "pipenv run checkov --directory terraform/ --quiet --download-external-modules true --framework terraform -o json > Checkov.json || true"
                     def report_name='Checkov.json'
                     stash allowEmpty: true, includes: report_name, name: report_name 
                    }

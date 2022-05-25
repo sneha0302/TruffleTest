@@ -133,7 +133,7 @@ stage('Checkov ->Checkout'){
 			                       ws('C:\\Users\\Administrator\\defectdojo_api\\examples\\v2')
 						{
 							unstash report_name
-							bat 'python dojo_ci_cd.py --product=2 --file '+report_name+' --scanner="Checkov Scan" --high=0 --host=https://demo.defectdojo.org --api_token=d1da53587c78c7b854e18d863acae805951cb810 --user=admin --engagement=1 --active TRUE'
+							bat 'python dojo_ci_cd.py --product=2 --file '+report_name+' --scanner="Checkov Scan" --high=0 --host=https://demo.defectdojo.org --api_token=548afd6fab3bea9794a41b31da0e9404f733e222 --user=admin --engagement=1 --active TRUE'
 			                         }
 						bat 'exit 0'
 					}

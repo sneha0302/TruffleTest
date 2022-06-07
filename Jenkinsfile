@@ -2,7 +2,7 @@ pipeline{
     agent any
     stages{
 	stage('Pre-Commit--> Trufflehog'){
-            agent {label 'linagent'}
+            agent {label 'linagent2'}
 	        options {
                 skipDefaultCheckout()
                 }
@@ -33,7 +33,7 @@ stage('snyk-jira') {
 	}
 	stage('SAST-->SonarQube')
 		{
-			agent {label 'linagent'}
+			agent {label 'linagent2'}
 			options { skipDefaultCheckout()     }
 	                steps{
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')  {
@@ -101,7 +101,7 @@ stage('Checkov ->Checkout'){
              docker {
                 image 'kennethreitz/pipenv:latest'
                 args '-u root --privileged -v /var/run/docker.sock:/var/run/docker.sock'
-                label 'linagent'
+                label 'linagent2'
                          }
                }
         options { skipDefaultCheckout() }      

@@ -25,7 +25,7 @@ stage('snyk-jira') {
 			script{
 				catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') 
 				{
-					bat 'C:\\Users\\Administrator\\Downloads\\snyk-jira-sync-win.exe --orgID=35c65e0d-af9d-4ed5-9caf-db0821e2f219 --token=e6cab6a7-1edb-4c11-83f7-8fc1055080e4 --jiraProjectKey=SNYK --configFile=true --jiraTicketType=Task --projectID=d9ec6f75-6b7e-4d9f-bc43-305ea2463b56'
+					bat 'C:\\Users\\Administrator\\Downloads\\snyk-jira-sync-win.exe --orgID=35c65e0d-af9d-4ed5-9caf-db0821e2f219 --token=e6cab6a7-1edb-4c11-83f7-8fc1055080e4 --jiraProjectKey=SNYK --jiraTicketType=Task --projectID=d9ec6f75-6b7e-4d9f-bc43-305ea2463b56'
 					bat 'exit 0'
 				}
 			}
@@ -41,7 +41,7 @@ stage('snyk-jira') {
 				deleteDir()
 				sh 'sudo git clone https://github.com/charankk21/SonarQube.git'
 				dir('SonarQube'){
-				sh 'mvn sonar:sonar -Dsonar.projectKey=SonarTest -Dsonar.host.url=http://localhost:9000 -Dsonar.login=12a39a18aacff4ee3e3c8d425463919a5d5c7fd2'
+				sh 'mvn sonar:sonar -Dsonar.projectKey=SonarTest -Dsonar.host.url=http://localhost:9000 -Dsonar.login=a34771d7e25738d4064a1994a97a58c3a72d2a33'
 				sh 'exit 0'
 				}
 			}
@@ -54,10 +54,10 @@ stage('snyk-jira') {
                               {
                 			catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')  
                                                {
-							appscan application: 'a34771d7e25738d4064a1994a97a58c3a72d2a33',
+							appscan application: '4f0d5614-a2ad-43e5-a167-255f052a2926',
 							credentials: 'hcldast',
 							email: true,
-							failBuild: false,
+							failBuild: false,s
 							failBuildNonCompliance: false,
 							failureConditions: [],
 							name: BUILD_NUMBER,

@@ -57,7 +57,7 @@ stage('snyk-jira') {
 							appscan application: '4f0d5614-a2ad-43e5-a167-255f052a2926',
 							credentials: 'hcldast',
 							email: true,
-							failBuild: false,s
+							failBuild: false,
 							failBuildNonCompliance: false,
 							failureConditions: [],
 							name: BUILD_NUMBER,

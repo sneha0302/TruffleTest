@@ -17,7 +17,7 @@ stage('SCA-->Snyk') {
             agent any
             steps{
 				checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/charankk21/TruffleTest.git']]])
-				snykSecurity failOnIssues: false, organisation: 'ea0871ca-05d5-4005-b34a-59f732ba9bb3', snykInstallation: 'snykKey', snykTokenId: 'snykSecrectS'
+				snykSecurity failOnIssues: false, organisation: '35c65e0d-af9d-4ed5-9caf-db0821e2f219', snykInstallation: 'snykKey', snykTokenId: 'snykSecrectS'
                 }
         }
 stage('snyk-jira') {
@@ -25,7 +25,7 @@ stage('snyk-jira') {
 			script{
 				catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') 
 				{
-					bat 'C:\\Users\\Administrator\\Downloads\\snyk-jira-sync-win.exe --orgID=ea0871ca-05d5-4005-b34a-59f732ba9bb3 --token=85e9708a-ceb6-48f9-a656-05beb16f827e --jiraProjectKey=SNYK --configFile=true --jiraTicketType=Task --projectID=d5e50a37-e09a-4613-82d0-deaad1dffd03'
+					bat 'C:\\Users\\Administrator\\Downloads\\snyk-jira-sync-win.exe --orgID=35c65e0d-af9d-4ed5-9caf-db0821e2f219 --token=e6cab6a7-1edb-4c11-83f7-8fc1055080e4 --jiraProjectKey=SNYK --configFile=true --jiraTicketType=Task --projectID=d9ec6f75-6b7e-4d9f-bc43-305ea2463b56'
 					bat 'exit 0'
 				}
 			}
@@ -54,7 +54,7 @@ stage('snyk-jira') {
                               {
                 			catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')  
                                                {
-							appscan application: '4829fff0-964c-47c7-9c36-26ce84ac977a',
+							appscan application: 'a34771d7e25738d4064a1994a97a58c3a72d2a33',
 							credentials: 'hcldast',
 							email: true,
 							failBuild: false,

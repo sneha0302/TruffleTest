@@ -7,7 +7,7 @@ pipeline{
                 skipDefaultCheckout() 
                 }
 			steps{
-				sh 'echo hello'
+				sh 'echo hello '
 				sh 'docker pull gesellix/trufflehog'
 				sh 'docker run gesellix/trufflehog --json --regex  > '
 				sh 'cat '

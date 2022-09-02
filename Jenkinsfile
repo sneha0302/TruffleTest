@@ -4,7 +4,7 @@ pipeline{
 	stage('Pre-Commit--> Trufflehog'){
             agent {label ''}
 	        options {
-                skipDefaultCheckout()
+                skipDefaultCheckout() 
                 }
 			steps{
 				sh 'echo hello'
